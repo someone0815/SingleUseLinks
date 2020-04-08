@@ -1,57 +1,50 @@
-//Toggle Quokka
-const randomHashes = [
+//Toggle Quokka.js
+const randomKeys = [
   {
-    text: '4gSdW',
-    isUsed: false,
+    id: 'bravo',
+    used: false,
   },
   {
-    text: 'zPFcM',
-    isUsed: false,
+    id: 'delta',
+    used: false,
   },
   {
-    text: 'NMp7T',
-    isUsed: false,
+    id: 'hotel',
+    used: false,
   },
 ];
 
-const availableHashes = randomHashes
-  .filter(function (hash) {
-    return hash.isUsed === false;
-  })
-  .map(function (hash) {
-    return hash;
+const availableKeys = () => {
+  return randomKeys.filter(function (key) {
+    return key.used === false;
   });
-console.log(availableHashes);
-
-const isAvailable = (hashInput) => {
-  ret = availableHashes.filter(function (hash) {
-    return hash.text === hashInput && !hash.isUsed;
-  });
-  // return availableHashes.indexOf(ret.text);
-  return ret.length != 0 ? ret : false;
 };
-console.log(isAvailable('NMp7T'));
+
+console.log(availableKeys());
+
+const isAvailable = (keyInput) => {
+  value = availableKeys().filter(function (key) {
+    return key.id === keyInput && !key.used;
+  });
+  return value.length != 0 ? value[0] : false;
+};
+
+console.log(isAvailable('bravo'));
 
 const setUsed = (entry) => {
-  console.log(entry[0]);
-  entry[0] != undefined
-    ? (entry[0].isUsed = true)
-    : console.warn('entry not defined');
-  // entry[0].isUsed = true;
+  if (entry == false) return false;
+  entry.used = true;
+  entry.time = new Date().toLocaleString();
 };
 
-const queryReqSim = (hash) => {
-  let isAvailableBool = isAvailable(hash) != false ? true : false;
-  setUsed(isAvailable(hash));
-  return isAvailableBool === true ? 'entry granted' : 'expired';
+//simulating request of url with id
+const request = (key) => {
+  return setUsed(isAvailable(key)) != false ? 'granted' : 'expired';
 };
 
-//simulating request of url with key
-console.log(queryReqSim('44444')); //first   httpRequest
-console.log(queryReqSim('4gSdW')); //second  httpRequest
-console.log(queryReqSim('NMp7T')); //third   httpRequest
-console.log(queryReqSim('NMp7T')); //fourth  httpRequest
-console.log(queryReqSim('zPFcM')); //fifth   httpRequest
-console.log(queryReqSim('zPFcM')); //sixth   httpRequest
+for (let query of ['bravo', 'bravo', 'hotel', 'hotel', 'oscar', 'romeo']) {
+  console.log(request(query));
+}
 
-console.log(randomHashes);
+console.log(randomKeys);
+console.log(availableKeys());
